@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+* Fix version setter and log msg formatting
+
+0.1.2
+-----
+
 * Fix malformed README
 
 0.1.1
