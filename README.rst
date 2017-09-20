@@ -14,7 +14,8 @@ Docker Nuke
 .. |PythonVersions| image:: https://img.shields.io/pypi/pyversions/docker-nuke.svg
     :target: https://wiki.python.org/moin/Python2orPython3
 
- docker-nuke, for when you want to blow away every docker object in sight
+docker-nuke, for when you want to blow away every docker object in sight
+
 
 Installation
 ------------
