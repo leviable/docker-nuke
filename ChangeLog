@@ -1,6 +1,13 @@
 CHANGES
 =======
 
+* Fix malformed README
+
+0.1.1
+-----
+
+* Fix the package name on PyPI
+
 0.1.0
 -----
 
