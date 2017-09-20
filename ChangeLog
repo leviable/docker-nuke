@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+0.1.0
+-----
+
+* Fix entry-point and switch to logging
+
 0.0.2
 -----
 
