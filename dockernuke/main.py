@@ -1,26 +1,29 @@
 import logging
 import sys
 
+import click
 import docker
 
 logging.basicConfig(format='%(message)s', level=logging.INFO, stream=sys.stdout)
 
 
-def main():
+@click.command()
+@click.option('--force/--no-force', default=False)
+def main(force):
     client = docker.from_env()
 
     for running_container in client.containers.list():
         logging.info("Stopping container: %s", running_container.name)
-        running_container.stop()
+        running_container.stop(force=force)
 
     for container in client.containers.list(all=True):
         logging.info("Removing container: %s", container.name)
-        container.remove()
+        container.remove(force=force)
 
     for image in client.images.list():
         logging.info("Removing image: %s", image.tags)
-        client.images.remove(image.id)
+        client.images.remove(image.id, force=force)
 
     for volume in client.volumes.list():
         logging.info("Removing volume: %s", volume.name)
-        volume.remove()
+        volume.remove(force=force)
