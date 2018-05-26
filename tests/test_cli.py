@@ -19,7 +19,7 @@ def cli_tester():
 
 @mock.patch('dockernuke.cli.nuke')
 def test_cli_no_flags(nuke_mock, cli_tester):
-    """ """
+    """ Verify CLI call with no options """
     result = cli_tester()
 
     assert result.exit_code == 0
@@ -28,7 +28,7 @@ def test_cli_no_flags(nuke_mock, cli_tester):
 
 @mock.patch('dockernuke.cli.nuke')
 def test_cli_w_no_force(nuke_mock, cli_tester):
-    """ """
+    """ Verify CLI call with --no-force option """
     result = cli_tester(*["--no-force"])
 
     assert result.exit_code == 0
@@ -37,7 +37,7 @@ def test_cli_w_no_force(nuke_mock, cli_tester):
 
 @mock.patch('dockernuke.cli.nuke')
 def test_cli_w_force(nuke_mock, cli_tester):
-    """ """
+    """ Verify cli call with --force option """
     result = cli_tester(*["--force"])
 
     assert result.exit_code == 0

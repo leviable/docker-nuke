@@ -1,26 +1,34 @@
-import logging
-import sys
-
+import click
 import docker
-
-logging.basicConfig(format='%(message)s', level=logging.INFO, stream=sys.stdout)
 
 
 def main(force=False):
     client = docker.from_env()
 
     for running_container in client.containers.list():
-        logging.info("Stopping container: %s", running_container.name)
-        running_container.stop(force=force)
+        click.echo("Stopping container: {0}".format(running_container.name))
+        _docker_call(running_container.stop, force=force)
 
     for container in client.containers.list(all=True):
-        logging.info("Removing container: %s", container.name)
-        container.remove(force=force)
+        click.echo("Removing container: {0}".format(container.name))
+        _docker_call(container.remove, force=force)
 
     for image in client.images.list():
-        logging.info("Removing image: %s", image.tags)
-        client.images.remove(image.id, force=force)
+        click.echo("Removing image: {0}".format(image.tags))
+        _docker_call(client.images.remove, image.id, force=force)
 
     for volume in client.volumes.list():
-        logging.info("Removing volume: %s", volume.name)
-        volume.remove(force=force)
+        click.echo("Removing volume: {0}".format(volume.name))
+        _docker_call(volume.remove, force=force)
+
+
+def _docker_call(method, *args, **kwargs):
+    """ """
+    try:
+        method(*args, **kwargs)
+    except docker.errors.APIError as exc:
+        if exc.status_code != 409:
+            raise
+        msg = ("Stopping/removing failed with status code 409. "
+               "Rerun with '--force' to force removal")
+        click.echo(click.style(msg, fg='red'))

@@ -3,6 +3,8 @@ import mock
 from docker.models.containers import Container
 from docker.models.images import Image
 from docker.models.volumes import Volume
+from docker.errors import APIError
+from requests import Response
 import pytest
 
 from dockernuke import nuke
@@ -39,14 +41,24 @@ def vol():
 
 
 @pytest.fixture()
+def resp():
+    """ Requests response fixture"""
+    resp = Response()
+    resp.status_code = 409
+    yield resp
+
+
+@pytest.fixture()
 def client(cntr, img, vol):
     """ Docker client fixture """
-    with mock.patch('dockernuke.main.docker') as docker:
-        docker.from_env.return_value = docker
-        docker.containers.list.return_value = [cntr, ]
-        docker.images.list.return_value = [img, ]
-        docker.volumes.list.return_value = [vol, ]
-        yield docker
+    with mock.patch('dockernuke.main.click'):
+        with mock.patch('dockernuke.main.docker') as docker:
+            docker.errors.APIError = APIError
+            docker.from_env.return_value = docker
+            docker.containers.list.return_value = [cntr, ]
+            docker.images.list.return_value = [img, ]
+            docker.volumes.list.return_value = [vol, ]
+            yield docker
 
 
 def test_nothing_to_remove(client):
@@ -86,3 +98,24 @@ def test_everything_removed(client):
 
     # Check Volume calls
     assert client.volumes.list()[0].remove.called
+
+
+def test_409_exc_handling(client, img, resp):
+    """ Verify docker client 409 exception handling """
+    client.images.remove.side_effect = APIError("Mock 409 exception", response=resp)
+
+    nuke()
+
+    assert client.images.remove.called
+
+
+def test_410_exc_handling_and_raising(client, img, resp):
+    """ Verify docker client 410 exception re-raising """
+    resp.status_code = 410
+    client.images.remove.side_effect = APIError("Mock 410 exception", response=resp)
+
+    with pytest.raises(APIError) as exc:
+        nuke()
+
+    assert client.images.remove.called
+    assert '410' in str(exc.value)

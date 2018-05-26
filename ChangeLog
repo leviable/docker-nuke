@@ -1,6 +1,7 @@
 CHANGES
 =======
 
+* Handle docker client 409 responses
 * Update tests
 * Add CLI options and allow \`force\`ed nuking
 
