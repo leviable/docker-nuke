@@ -82,7 +82,7 @@ def test_everything_removed(client):
 
     # Check Image calls
     assert client.images.remove.called
-    assert mock.call(client.images.list()[0].id) == client.images.remove.call_args
+    assert mock.call(client.images.list()[0].id, force=False) == client.images.remove.call_args
 
     # Check Volume calls
     assert client.volumes.list()[0].remove.called

@@ -1,15 +1,12 @@
 import logging
 import sys
 
-import click
 import docker
 
 logging.basicConfig(format='%(message)s', level=logging.INFO, stream=sys.stdout)
 
 
-@click.command()
-@click.option('--force/--no-force', default=False)
-def main(force):
+def main(force=False):
     client = docker.from_env()
 
     for running_container in client.containers.list():
