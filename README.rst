@@ -42,3 +42,14 @@ Running
     Removing image: ['python:3.6']
     Removing image: ['redis:3.0']
     Removing volume: 15cd0eca3196513657b12ba9b8d27a7d220f49f6a374124abd21d9aae5672d55
+
+
+Use the `--force` option to force remove docker objects:
+
+.. code-block:: bash
+
+    $ docker-nuke
+    Removing image: ['python:3-foo', 'python:3-slim']
+    Stopping/removing failed with status code 409. Rerun with '--force' to force removal
+    $ docker-nuke --force
+    Removing image: ['python:3-foo', 'python:3-slim']

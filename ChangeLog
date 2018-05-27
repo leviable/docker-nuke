@@ -1,6 +1,13 @@
 CHANGES
 =======
 
+* Handle docker client 409 responses
+* Update tests
+* Add CLI options and allow \`force\`ed nuking
+
+0.1.3
+-----
+
 * Fix version setter and log msg formatting
 
 0.1.2
