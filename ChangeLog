@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+* Better output formatting
+
+0.2.0
+-----
+
 * Handle docker client 409 responses
 * Update tests
 * Add CLI options and allow \`force\`ed nuking
