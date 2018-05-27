@@ -31,25 +31,18 @@ Running
 .. code-block:: bash
 
     $ docker-nuke
-    Stopping container: identidock_identidock_1
-    Stopping container: identidock_redis_1
-    Stopping container: identidock_dnmonster_1
-    Removing container: identidock_identidock_1
-    Removing container: identidock_redis_1
-    Removing container: identidock_dnmonster_1
-    Removing image: ['identidock_identidock:latest']
-    Removing image: ['amouat/dnmonster:1.0']
-    Removing image: ['python:3.6']
-    Removing image: ['redis:3.0']
-    Removing volume: 15cd0eca3196513657b12ba9b8d27a7d220f49f6a374124abd21d9aae5672d55
+    Stopping container 50bd26e339: Succeeded
+    Removing container 50bd26e339: Succeeded
+    Removing container 913061d931: Succeeded
+    Removing image     59507b30b4: Failed (retry with "--force")
+    Removing image     3fd9065eaf: Failed (retry with "--force")
+    Removing volume    140bb8e5cc: Succeeded
 
 
-Use the `--force` option to force remove docker objects:
+Use the ``--force`` option to force remove docker objects:
 
 .. code-block:: bash
 
-    $ docker-nuke
-    Removing image: ['python:3-foo', 'python:3-slim']
-    Stopping/removing failed with status code 409. Rerun with '--force' to force removal
     $ docker-nuke --force
-    Removing image: ['python:3-foo', 'python:3-slim']
+    Removing image     59507b30b4: Succeeded
+    Removing image     3fd9065eaf: Succeeded
